@@ -21,14 +21,16 @@ class Object:
         self.number = number
         self.min_hsv = min_hsv
         self.max_hsv = max_hsv
-        self.name = "obj" + str(self.number)
-        path = "objects/" + self.name + ".png"
+        self.name = "obj{}".format(str(self.number))
+        path = "objects/{}.png".format(self.name)
         self.img = cv2.imread(path)
         self.gray = cv2.cvtColor(self.img, cv2.COLOR_BGR2GRAY)
         self.hsv = cv2.cvtColor(self.img, cv2.COLOR_BGR2HSV)
         self.bin = cv2.inRange(self.hsv, self.min_hsv, self.max_hsv)
         self.max_area = Object.find_max_area(self)
+        self.height = self.gray.shape[0]
+        self.width = self.gray.shape[1]
 
     def save(self):
         filename = self.name + ".png"
-        cv2.imwrite(filename, self.max_area)
+        cv2.imwrite(filename, self.gray)
